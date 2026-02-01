@@ -792,7 +792,8 @@ body.menu-open {
   background: rgba(196, 69, 58, 0.03);
 }
 
-.menu-item.hidden {
+.menu-item.hidden,
+.menu-featured-item.hidden {
   display: none;
 }
 
