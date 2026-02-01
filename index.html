@@ -28,12 +28,13 @@
   <meta name="ICBM" content="5.4166352, 100.3433671">
 
   <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="sitemap" type="application/xml" href="sitemap.xml">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="image" href="images/hero.jpg" fetchpriority="high">
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=5">
+  <link rel="stylesheet" href="styles.css?v=6">
 
   <!-- Restaurant Structured Data -->
   <script type="application/ld+json">
@@ -176,6 +177,31 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Press & Media -->
+  <section class="section press" id="press">
+    <div class="container">
+      <p class="section-label center">In The Press</p>
+      <h2 class="section-title center">Featured In</h2>
+      <div class="press-grid">
+        <a href="https://guide.michelin.com/my/en/pulau-pinang/my-george-town/restaurant/lucky-hole" target="_blank" rel="noopener" class="press-card">
+          <span class="press-name">Michelin Guide</span>
+          <span class="press-desc">Selected Restaurant 2025 &amp; 2026</span>
+          <span class="press-link">Read more &rarr;</span>
+        </a>
+        <a href="https://robbreport.com.my/2025/02/19/lucky-holes-waymann-cheong-winner-of-the-2025-michelin-guide-young-chef-award-serves-up-imaginative-flavours/" target="_blank" rel="noopener" class="press-card">
+          <span class="press-name">Robb Report</span>
+          <span class="press-desc">Young Chef Award &mdash; imaginative flavours from the grill</span>
+          <span class="press-link">Read more &rarr;</span>
+        </a>
+        <a href="https://guide.michelin.com/my/en/article/people/waymann-cheong-lucky-hole-penang-interview" target="_blank" rel="noopener" class="press-card">
+          <span class="press-name">Michelin Interview</span>
+          <span class="press-desc">Chef Waymann Cheong on fire, creativity &amp; Penang</span>
+          <span class="press-link">Read more &rarr;</span>
+        </a>
       </div>
     </div>
   </section>
@@ -694,8 +720,19 @@
     </a>
   </div>
 
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image gallery">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">&times;</button>
+    <button class="lightbox-prev" id="lightboxPrev" aria-label="Previous image">&#10094;</button>
+    <button class="lightbox-next" id="lightboxNext" aria-label="Next image">&#10095;</button>
+    <div class="lightbox-content">
+      <img class="lightbox-img" id="lightboxImg" src="" alt="">
+      <p class="lightbox-caption" id="lightboxCaption"></p>
+    </div>
+  </div>
+
   <!-- Google Maps Places API -->
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAthBWHrKdDFqPBMju2SwForOSsnLw_IjQ&libraries=places&callback=initPlaces"></script>
-  <script src="script.js?v=5"></script>
+  <script src="script.js?v=6"></script>
 </body>
 </html>

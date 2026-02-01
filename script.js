@@ -214,6 +214,58 @@ document.addEventListener('DOMContentLoaded', () => {
     ctaObserver.observe(heroSection);
   }
 
+  // --- Gallery Lightbox ---
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const lightboxCaption = document.getElementById('lightboxCaption');
+  const lightboxClose = document.getElementById('lightboxClose');
+  const lightboxPrev = document.getElementById('lightboxPrev');
+  const lightboxNext = document.getElementById('lightboxNext');
+  const galleryItems = document.querySelectorAll('#galleryGrid .gallery-item');
+  let currentLightboxIndex = 0;
+
+  function openLightbox(index) {
+    currentLightboxIndex = index;
+    const item = galleryItems[index];
+    const img = item.querySelector('img');
+    lightboxImg.src = img.src;
+    lightboxImg.alt = img.alt;
+    lightboxCaption.textContent = item.dataset.label || '';
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function navigateLightbox(direction) {
+    currentLightboxIndex = (currentLightboxIndex + direction + galleryItems.length) % galleryItems.length;
+    openLightbox(currentLightboxIndex);
+  }
+
+  galleryItems.forEach((item, index) => {
+    item.addEventListener('click', () => openLightbox(index));
+  });
+
+  if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
+  if (lightboxPrev) lightboxPrev.addEventListener('click', () => navigateLightbox(-1));
+  if (lightboxNext) lightboxNext.addEventListener('click', () => navigateLightbox(1));
+
+  if (lightbox) {
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox || !lightbox.classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') navigateLightbox(-1);
+    if (e.key === 'ArrowRight') navigateLightbox(1);
+  });
+
 });
 
 // ========================================
