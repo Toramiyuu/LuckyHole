@@ -215,10 +215,11 @@ a {
 }
 
 .nav-logo-img {
-  height: 36px;
+  height: 80px;
   width: auto;
   filter: brightness(0) invert(1);
   transition: opacity 0.3s ease;
+  margin: -24px 0;
 }
 
 .nav-logo-img:hover {
@@ -1383,7 +1384,8 @@ body.menu-open {
   }
 
   .nav-logo-img {
-    height: 28px;
+    height: 60px;
+    margin: -16px 0;
   }
 
   .menu-featured {
