@@ -45,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- Menu category tabs ---
   const menuTabs = document.querySelectorAll('.menu-tab');
   const menuItems = document.querySelectorAll('.menu-item');
+  const menuFeaturedItems = document.querySelectorAll('.menu-featured-item');
 
   menuTabs.forEach(tab => {
     tab.addEventListener('click', () => {
@@ -52,6 +53,14 @@ document.addEventListener('DOMContentLoaded', () => {
       menuTabs.forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
       menuItems.forEach(item => {
+        if (item.dataset.category === category) {
+          item.classList.remove('hidden');
+        } else {
+          item.classList.add('hidden');
+        }
+      });
+      // Swap featured photos per category
+      menuFeaturedItems.forEach(item => {
         if (item.dataset.category === category) {
           item.classList.remove('hidden');
         } else {
@@ -121,54 +130,54 @@ document.addEventListener('DOMContentLoaded', () => {
       const minutes = myTime.getMinutes();
       const currentMinutes = hours * 60 + minutes;
 
-      // Lucky Hole hours:
-      // Mon(1), Tue(2), Wed(3) = Closed
-      // Thu(4), Fri(5), Sat(6) = 6PM-1AM
-      // Sun(0) = 6PM-11PM
-      const closedDays = [1, 2, 3];
-      const lateNightDays = [4, 5, 6]; // Thu-Sat: 6PM-1AM
-      const sundayClose = 23 * 60; // 11PM
+      // Lucky Hole hours (from Google):
+      // Mon(1), Tue(2) = Closed
+      // Wed(3), Thu(4), Sun(0) = 6PM-12AM (midnight)
+      // Fri(5), Sat(6) = 6PM-1AM
+      const closedDays = [1, 2];
+      const lateNightDays = [5, 6]; // Fri-Sat: 6PM-1AM
+      const midnightDays = [0, 3, 4]; // Sun, Wed, Thu: 6PM-12AM
       const openTime = 18 * 60; // 6PM
-      const lateClose = 25 * 60; // 1AM (next day)
+      const midnightClose = 24 * 60; // 12AM
 
       const dot = heroBadge.querySelector('.badge-dot');
       const text = heroBadge.querySelector('.badge-text');
 
       if (closedDays.includes(day)) {
-        // Check if it's early morning Mon/Tue/Wed and we're still in "last night's" hours
-        // e.g., Saturday night extends into Sunday 1AM, but Sun is open day
-        // Thu night extends to Fri 1AM — Fri is open
-        // Sat night extends to Sun 1AM — Sun is open
-        // So closed days Mon-Wed: check if before 1AM and previous day was open
-        if (currentMinutes < 60 && !closedDays.includes((day + 6) % 7)) {
-          // Before 1AM and yesterday was an open late-night day
+        // Monday or Tuesday
+        // Check if before 1AM and yesterday was a late-night day (Fri/Sat)
+        if (currentMinutes < 60 && lateNightDays.includes((day + 6) % 7)) {
           dot.classList.remove('closed');
           text.textContent = 'Open now until 1:00 AM';
         } else {
           dot.classList.add('closed');
-          // Find next open day
-          if (day === 1) text.textContent = 'Closed today — Opens Thursday 6:00 PM';
-          else if (day === 2) text.textContent = 'Closed today — Opens Thursday 6:00 PM';
-          else if (day === 3) text.textContent = 'Closed today — Opens tomorrow 6:00 PM';
+          if (day === 1) text.textContent = 'Closed today — Opens Wednesday 6:00 PM';
+          else if (day === 2) text.textContent = 'Closed today — Opens tomorrow 6:00 PM';
         }
-      } else if (day === 0) {
-        // Sunday: 6PM-11PM
-        if (currentMinutes < 60 && lateNightDays.includes(6)) {
-          // Before 1AM Sunday = still Saturday night hours
+      } else if (midnightDays.includes(day)) {
+        // Sun(0), Wed(3), Thu(4): 6PM-12AM
+        // Check if before 1AM and previous day was a late-night day
+        if (currentMinutes < 60 && lateNightDays.includes((day + 6) % 7)) {
           dot.classList.remove('closed');
           text.textContent = 'Open now until 1:00 AM';
-        } else if (currentMinutes >= openTime && currentMinutes < sundayClose) {
+        } else if (currentMinutes >= openTime && currentMinutes < midnightClose) {
           dot.classList.remove('closed');
-          text.textContent = 'Open now until 11:00 PM';
+          text.textContent = 'Open now until 12:00 AM';
         } else if (currentMinutes < openTime) {
           dot.classList.add('closed');
           text.textContent = 'Opens today at 6:00 PM';
         } else {
+          // After midnight
           dot.classList.add('closed');
-          text.textContent = 'Closed — Opens Thursday 6:00 PM';
+          const tomorrow = (day + 1) % 7;
+          if (closedDays.includes(tomorrow)) {
+            text.textContent = 'Closed — Opens Wednesday 6:00 PM';
+          } else {
+            text.textContent = 'Closed — Opens tomorrow 6:00 PM';
+          }
         }
       } else {
-        // Thu(4), Fri(5), Sat(6): 6PM-1AM
+        // Fri(5), Sat(6): 6PM-1AM
         if (currentMinutes < 60) {
           // Before 1AM = still previous night's session
           dot.classList.remove('closed');
