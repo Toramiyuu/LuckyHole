@@ -739,11 +739,8 @@ body.menu-open {
 
 /* Menu Featured Photos */
 .menu-featured {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  max-width: 900px;
-  margin: 0 auto 40px;
+  max-width: 700px;
+  margin: 0 auto 48px;
 }
 
 .menu-featured:empty {
@@ -752,8 +749,8 @@ body.menu-open {
 
 .menu-featured-item {
   overflow: hidden;
-  border-radius: 2px;
-  aspect-ratio: 4/3;
+  border-radius: 4px;
+  aspect-ratio: 16/9;
   position: relative;
 }
 
