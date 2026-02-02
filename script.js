@@ -366,6 +366,8 @@ function renderGoogleData(data) {
 
   if (goodReviews.length === 0) return;
 
+  const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
   const cards = goodReviews.map(review => {
     const stars = Array.from({ length: 5 }, (_, i) =>
       i < review.rating ? starSvg : emptyStarSvg
@@ -378,10 +380,10 @@ function renderGoogleData(data) {
     return `
       <div class="testimonial-card">
         <div class="testimonial-stars">${stars}</div>
-        <p class="testimonial-text">"${text.replace(/"/g, '&quot;').replace(/</g, '&lt;')}"</p>
+        <p class="testimonial-text">"${esc(text)}"</p>
         <div class="testimonial-author">
-          <span class="testimonial-name">${review.author.replace(/</g, '&lt;')}</span>
-          <span class="testimonial-source"><span class="review-source-badge">Google</span> ${review.time || ''}</span>
+          <span class="testimonial-name">${esc(review.author)}</span>
+          <span class="testimonial-source"><span class="review-source-badge">Google</span> ${esc(review.time || '')}</span>
         </div>
       </div>
     `;
